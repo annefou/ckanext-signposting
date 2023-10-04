@@ -1,0 +1,36 @@
+{% ckan_extends %}
+
+{% set res = resource %}
+
+{% macro license_string(pkg_dict) %}
+  {% if 'license_url' in pkg_dict %}
+    <a href="{{ pkg_dict.license_url }}" rel="dc:rights">{{ pkg_dict.license_title }}</a>
+  {% else %}
+    {% if pkg_dict.license_id %}
+      <span property="dc:rights">{{ pkg_dict.license_title }}</span>
+    {% else %}
+      <span>{{ _('No License Provided') }}</span>
+    {% endif %}
+  {% endif %}
+{% endmacro %}
+
+{% block head_extras -%}
+  {{ super() }}
+
+    <link rel="type" href="https://schema.org/Dataset">
+    <link rel="type" href="https://schema.org/AboutPage">
+    {% if 'license_url' in pkg_dict %}
+      <link rel="license" href="{{ pkg_dict.license_url  }}" >
+    {% endif %}
+    {% if h.sorted_extras(pkg_dict.extras) %}
+        {% for extra in h.sorted_extras(pkg_dict.extras) %}
+            {% set key, value = extra %}
+	    {% if key == "Orcid" %}
+	        <link rel="author" href="{{ value }}" >
+            {% endif %}
+	    {% if key == "License" %}
+	        <link rel="license" href="{{ value }}" >
+            {% endif %}
+	{% endfor %}
+    {% endif %}
+{% endblock -%}

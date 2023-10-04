@@ -1,0 +1,14 @@
+# signposting-js:
+#   filter: rjsmin
+#   output: ckanext-signposting/%(version)s-signposting.js
+#   contents:
+#     - js/signposting.js
+#   extra:
+#     preload:
+#       - base/main
+
+# signposting-css:
+#   filter: cssrewrite
+#   output: ckanext-signposting/%(version)s-signposting.css
+#   contents:
+#     - css/signposting.css
